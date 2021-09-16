@@ -1,5 +1,7 @@
+import 'package:dartz/dartz.dart';
 import 'package:kulina_app/domain/entities/product.dart';
+import 'package:kulina_app/utils/failure.dart';
 
 abstract class ProductRepository {
-  Future<List<Product>> getProductList();
+  Future<Either<Failure, List<Product>>> getProductList();
 }

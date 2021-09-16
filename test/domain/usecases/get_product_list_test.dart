@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kulina_app/domain/entities/product.dart';
 import 'package:kulina_app/domain/repositories/product_repository.dart';
@@ -27,11 +28,11 @@ void main() {
       final mockProductRepository = MockProductRepository();
       final usecase = GetProductList(mockProductRepository);
       when(mockProductRepository.getProductList())
-          .thenAnswer((_) async => testProductList);
+          .thenAnswer((_) async => Right(testProductList));
       // act
       final result = await usecase.execute();
       // assert
-      expect(result, testProductList);
+      expect(result, Right(testProductList));
     },
   );
 }
