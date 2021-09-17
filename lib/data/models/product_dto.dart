@@ -1,5 +1,13 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 import 'package:kulina_app/domain/entities/product.dart';
+
+List<ProductDTO> productDtoFromJson(String str) =>
+    List<ProductDTO>.from(json.decode(str).map((x) => ProductDTO.fromJson(x)));
+
+String productDtoToJson(List<ProductDTO> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class ProductDTO extends Equatable {
   ProductDTO({
