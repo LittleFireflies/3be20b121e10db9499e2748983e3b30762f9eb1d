@@ -1,8 +1,10 @@
+import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:kulina_app/domain/entities/product.dart';
 import 'package:kulina_app/presentation/bloc/product_list/product_list_bloc.dart';
+import 'package:kulina_app/utils/date_utils.dart';
 
 class ProductListScreen extends StatefulWidget {
   @override
@@ -10,6 +12,10 @@ class ProductListScreen extends StatefulWidget {
 }
 
 class _ProductListScreenState extends State<ProductListScreen> {
+  DateTime _selectedDate = getInitialDate();
+  static const numberOfDays = 7;
+  static const numberOfWeeks = 8;
+
   @override
   void initState() {
     super.initState();
@@ -27,8 +33,20 @@ class _ProductListScreenState extends State<ProductListScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            DatePicker(
+              getInitialDate(),
+              initialSelectedDate: _selectedDate,
+              selectionColor: Colors.black,
+              daysCount: numberOfDays * numberOfWeeks,
+              inactiveDates: getSaturdayAndSunday(),
+              onDateChange: (date) {
+                setState(() {
+                  _selectedDate = date;
+                });
+              },
+            ),
             Text(
-              'Kamis, 16 September 2021',
+              getFullDateFormat(_selectedDate),
               style: Theme.of(context).textTheme.headline6,
             ),
             SizedBox(height: 16),
