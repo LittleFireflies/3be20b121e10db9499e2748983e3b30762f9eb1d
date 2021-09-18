@@ -68,15 +68,16 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   CartButton(
                     state,
-                    actionWidget: TextButton(
-                      child: Row(
-                        children: [
-                          Text('Checkout'),
-                          Icon(Icons.chevron_right),
-                        ],
-                      ),
-                      onPressed: () {},
+                    actionWidget: Row(
+                      children: [
+                        Text('Checkout'),
+                        Icon(Icons.chevron_right),
+                      ],
                     ),
+                    onPressed: () {
+                      context.read<ProductCartBloc>().add(RemoveOrder());
+                      Navigator.pop(context, 'Order Successful!');
+                    },
                   ),
                 ],
               );

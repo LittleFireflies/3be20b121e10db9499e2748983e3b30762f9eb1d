@@ -4,36 +4,37 @@ import 'package:kulina_app/presentation/bloc/product_cart/product_cart_bloc.dart
 class CartButton extends StatelessWidget {
   ProductCartState state;
   Widget? actionWidget;
+  Function()? onPressed;
 
-  CartButton(this.state, {this.actionWidget});
+  CartButton(this.state, {this.actionWidget, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        color: Colors.red,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: Colors.red,
+        onPrimary: Colors.white,
+        padding: const EdgeInsets.all(16.0),
+      ),
+      onPressed: onPressed ?? () {},
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${state.carts.length} item | Rp ${state.totalPrice}',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  Text(
-                    'Termasuk ongkos kirim',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
+              Text(
+                '${state.carts.length} item | Rp ${state.totalPrice}',
+                style: TextStyle(color: Colors.white),
               ),
-              actionWidget ?? Container(),
+              Text(
+                'Termasuk ongkos kirim',
+                style: TextStyle(color: Colors.white),
+              ),
             ],
           ),
-        ),
+          actionWidget ?? Container(),
+        ],
       ),
     );
   }

@@ -107,18 +107,22 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           right: 0,
                           child: CartButton(
                             state,
-                            actionWidget: IconButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => CartScreen()));
-                              },
-                              icon: Icon(
-                                Icons.shopping_cart,
-                                color: Colors.white,
-                              ),
+                            actionWidget: Icon(
+                              Icons.shopping_cart,
+                              color: Colors.white,
                             ),
+                            onPressed: () async {
+                              final String? resultMessage =
+                                  await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => CartScreen()));
+
+                              if (resultMessage != null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(resultMessage)));
+                              }
+                            },
                           ),
                         );
                       }
