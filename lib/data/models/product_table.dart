@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:kulina_app/domain/entities/product.dart';
 
-class ProductOrderTable {
+class ProductOrderTable extends Equatable {
   Product product;
   DateTime date;
   int quantity;
@@ -46,4 +47,7 @@ class ProductOrderTable {
         date: date,
         quantity: quantity,
       );
+
+  @override
+  List<Object?> get props => [product, date, quantity];
 }

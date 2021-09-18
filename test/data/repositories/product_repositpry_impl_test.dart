@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:kulina_app/data/datasources/api_service.dart';
 import 'package:kulina_app/data/datasources/database.dart';
 import 'package:kulina_app/data/models/product_dto.dart';
+import 'package:kulina_app/data/models/product_table.dart';
 import 'package:kulina_app/data/repositories/product_repository_impl.dart';
 import 'package:kulina_app/domain/entities/product.dart';
 import 'package:kulina_app/utils/failure.dart';
@@ -35,6 +36,16 @@ void main() {
   );
   final testProductList = [testProduct];
 
+  final tDate = DateTime.now();
+
+  final testProductOrder = ProductOrder(
+    product: testProduct,
+    date: tDate,
+    quantity: 1,
+  );
+
+  final testProductOrderTable = ProductOrderTable(testProduct, tDate, 1);
+
   late MockApiService mockApiService;
   late MockDatabase mockDatabase;
   late ProductRepositoryImpl repository;
@@ -48,32 +59,86 @@ void main() {
     );
   });
 
-  test(
-    'should return API data when call to API Service is success',
-    () async {
-      // arrange
+  group('getProductList()', () {
+    test(
+      'should return API data when call to API Service is success',
+      () async {
+        // arrange
 
-      when(mockApiService.getProducts())
-          .thenAnswer((_) async => testProductDtoList);
-      // act
-      final result = await repository.getProductList();
-      // assert
-      verify(mockApiService.getProducts());
-      final resultList = result.getOrElse(() => []);
-      expect(resultList, testProductList);
-    },
-  );
+        when(mockApiService.getProducts())
+            .thenAnswer((_) async => testProductDtoList);
+        // act
+        final result = await repository.getProductList();
+        // assert
+        verify(mockApiService.getProducts());
+        final resultList = result.getOrElse(() => []);
+        expect(resultList, testProductList);
+      },
+    );
 
-  test(
-    'should return ServerFailure when call to API Service is unsuccess',
-    () async {
+    test(
+      'should return ServerFailure when call to API Service is unsuccess',
+      () async {
+        // arrange
+        when(mockApiService.getProducts()).thenThrow(Exception());
+        // act
+        final result = await repository.getProductList();
+        // assert
+        verify(mockApiService.getProducts());
+        expect(result, Left(ServerFailure('')));
+      },
+    );
+  });
+
+  group('saveToCart', () {
+    test('should call database.addToCart', () {
       // arrange
-      when(mockApiService.getProducts()).thenThrow(Exception());
       // act
-      final result = await repository.getProductList();
+      repository.saveToCart(testProductOrder);
       // assert
-      verify(mockApiService.getProducts());
-      expect(result, Left(ServerFailure('')));
-    },
-  );
+      verify(mockDatabase.addToCart(testProductOrderTable));
+    });
+  });
+
+  group('removeFromCart', () {
+    test('should call database.removeFromCart', () {
+      // arrange
+      // act
+      repository.removeFromCart(testProductOrder);
+      // assert
+      verify(mockDatabase.removeFromCart(testProductOrderTable));
+    });
+  });
+
+  group('getCarts', () {
+    test('should return list of ProductOrder from database', () async {
+      // arrange
+      when(mockDatabase.getAllCarts())
+          .thenAnswer((_) async => [testProductOrderTable]);
+      // act
+      final result = await repository.getCarts();
+      // assert
+      expect(result, [testProductOrder]);
+    });
+  });
+
+  group('updateCart', () {
+    test('should call database.updateCart', () {
+      // arrange
+      // act
+      repository.updateCart(testProductOrder);
+      // assert
+      verify(mockDatabase.updateCart(testProductOrderTable));
+    });
+  });
+
+  group('clearCart', () {
+    test('should call database.clearCart', () {
+      // arrange
+      // act
+      repository.clearCart();
+      // assert
+      verify(mockDatabase.clearCart());
+    });
+  });
 }
