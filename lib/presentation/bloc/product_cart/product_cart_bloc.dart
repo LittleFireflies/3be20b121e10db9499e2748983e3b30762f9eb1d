@@ -47,6 +47,13 @@ class ProductCartBloc extends Bloc<ProductCartEvent, ProductCartState> {
         carts: cart,
         totalPrice: _countTotalPrice(cart),
       );
+    } else if (event is RemoveCartItem) {
+      updateQuantity.execute(event.productOrder, 0);
+      final cart = await getCartList.execute();
+      yield ProductCartState(
+        carts: cart,
+        totalPrice: _countTotalPrice(cart),
+      );
     }
   }
 

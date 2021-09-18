@@ -43,3 +43,12 @@ class DecrementProductOrder extends ProductCartEvent {
   @override
   List<Object?> get props => [product];
 }
+
+class RemoveCartItem extends ProductCartEvent {
+  final ProductOrder productOrder;
+
+  RemoveCartItem({required this.productOrder});
+
+  @override
+  List<Object?> get props => [productOrder];
+}

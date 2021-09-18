@@ -35,7 +35,11 @@ class CartItem extends StatelessWidget {
                       child: Text(order.product.name),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context
+                            .read<ProductCartBloc>()
+                            .add(RemoveCartItem(productOrder: order));
+                      },
                       icon: Icon(Icons.delete),
                     )
                   ],
