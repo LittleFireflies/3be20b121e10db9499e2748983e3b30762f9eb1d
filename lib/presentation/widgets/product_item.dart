@@ -57,21 +57,15 @@ class ProductItem extends StatelessWidget {
         SizedBox(height: 16),
         Wrap(
           children: [
-            Flexible(
-              child: Text(
-                'Rp ${product.price}',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6!
-                    .copyWith(fontSize: 14),
-              ),
+            Text(
+              'Rp ${product.price}',
+              style:
+                  Theme.of(context).textTheme.headline6!.copyWith(fontSize: 14),
             ),
             SizedBox(width: 4),
-            Flexible(
-              child: Text(
-                'termasuk ongkir',
-                style: TextStyle(fontSize: 12),
-              ),
+            Text(
+              'termasuk ongkir',
+              style: TextStyle(fontSize: 12),
             ),
           ],
         ),

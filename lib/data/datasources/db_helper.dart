@@ -19,7 +19,7 @@ class DatabaseHelper {
       '$path/kulina.db',
       onCreate: (db, version) async {
         await db.execute('''CREATE TABLE $_tblCart (
-             id INTEGER PRIMARY KEY,
+             id INTEGER,
              name TEXT,
              imageUrl TEXT,
              brandName TEXT,
