@@ -39,5 +39,22 @@ class MockProductRepository extends _i1.Mock implements _i3.ProductRepository {
       super.noSuchMethod(Invocation.method(#saveToCart, [productOrder]),
           returnValueForMissingStub: null);
   @override
+  void removeFromCart(_i6.ProductOrder? productOrder) =>
+      super.noSuchMethod(Invocation.method(#removeFromCart, [productOrder]),
+          returnValueForMissingStub: null);
+  @override
+  _i4.Future<List<_i6.ProductOrder>> getCarts() =>
+      (super.noSuchMethod(Invocation.method(#getCarts, []),
+              returnValue:
+                  Future<List<_i6.ProductOrder>>.value(<_i6.ProductOrder>[]))
+          as _i4.Future<List<_i6.ProductOrder>>);
+  @override
+  void updateCart(_i6.ProductOrder? product) =>
+      super.noSuchMethod(Invocation.method(#updateCart, [product]),
+          returnValueForMissingStub: null);
+  @override
+  void clearCart() => super.noSuchMethod(Invocation.method(#clearCart, []),
+      returnValueForMissingStub: null);
+  @override
   String toString() => super.toString();
 }

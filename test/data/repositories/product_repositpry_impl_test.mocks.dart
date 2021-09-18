@@ -5,7 +5,9 @@
 import 'dart:async' as _i3;
 
 import 'package:kulina_app/data/datasources/api_service.dart' as _i2;
+import 'package:kulina_app/data/datasources/database.dart' as _i5;
 import 'package:kulina_app/data/models/product_dto.dart' as _i4;
+import 'package:kulina_app/data/models/product_table.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: avoid_redundant_argument_values
@@ -29,6 +31,44 @@ class MockApiService extends _i1.Mock implements _i2.ApiService {
           Invocation.method(#getProducts, []),
           returnValue: Future<List<_i4.ProductDTO>>.value(<_i4.ProductDTO>[]))
       as _i3.Future<List<_i4.ProductDTO>>);
+  @override
+  String toString() => super.toString();
+}
+
+/// A class which mocks [Database].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockDatabase extends _i1.Mock implements _i5.Database {
+  MockDatabase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  void addToCart(_i6.ProductOrderTable? productOrder) =>
+      super.noSuchMethod(Invocation.method(#addToCart, [productOrder]),
+          returnValueForMissingStub: null);
+  @override
+  _i3.Future<List<_i6.ProductOrderTable>> getAllCarts() =>
+      (super.noSuchMethod(Invocation.method(#getAllCarts, []),
+              returnValue: Future<List<_i6.ProductOrderTable>>.value(
+                  <_i6.ProductOrderTable>[]))
+          as _i3.Future<List<_i6.ProductOrderTable>>);
+  @override
+  _i3.Future<_i6.ProductOrderTable?> getCartsByProductId(int? id) =>
+      (super.noSuchMethod(Invocation.method(#getCartsByProductId, [id]),
+              returnValue: Future<_i6.ProductOrderTable?>.value())
+          as _i3.Future<_i6.ProductOrderTable?>);
+  @override
+  void updateCart(_i6.ProductOrderTable? productOrder) =>
+      super.noSuchMethod(Invocation.method(#updateCart, [productOrder]),
+          returnValueForMissingStub: null);
+  @override
+  void removeFromCart(_i6.ProductOrderTable? productOrder) =>
+      super.noSuchMethod(Invocation.method(#removeFromCart, [productOrder]),
+          returnValueForMissingStub: null);
+  @override
+  void clearCart() => super.noSuchMethod(Invocation.method(#clearCart, []),
+      returnValueForMissingStub: null);
   @override
   String toString() => super.toString();
 }

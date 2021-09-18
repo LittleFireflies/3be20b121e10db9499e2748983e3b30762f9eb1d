@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kulina_app/data/datasources/api_service.dart';
+import 'package:kulina_app/data/datasources/database.dart';
 import 'package:kulina_app/data/models/product_dto.dart';
 import 'package:kulina_app/data/repositories/product_repository_impl.dart';
 import 'package:kulina_app/domain/entities/product.dart';
@@ -10,7 +11,7 @@ import 'package:mockito/mockito.dart';
 
 import 'product_repositpry_impl_test.mocks.dart';
 
-@GenerateMocks([ApiService])
+@GenerateMocks([ApiService, Database])
 void main() {
   final testProductDto = ProductDTO(
     id: 1,
@@ -34,12 +35,24 @@ void main() {
   );
   final testProductList = [testProduct];
 
+  late MockApiService mockApiService;
+  late MockDatabase mockDatabase;
+  late ProductRepositoryImpl repository;
+
+  setUp(() {
+    mockApiService = MockApiService();
+    mockDatabase = MockDatabase();
+    repository = ProductRepositoryImpl(
+      apiService: mockApiService,
+      database: mockDatabase,
+    );
+  });
+
   test(
     'should return API data when call to API Service is success',
     () async {
       // arrange
-      final mockApiService = MockApiService();
-      final repository = ProductRepositoryImpl(mockApiService);
+
       when(mockApiService.getProducts())
           .thenAnswer((_) async => testProductDtoList);
       // act
@@ -55,8 +68,6 @@ void main() {
     'should return ServerFailure when call to API Service is unsuccess',
     () async {
       // arrange
-      final mockApiService = MockApiService();
-      final repository = ProductRepositoryImpl(mockApiService);
       when(mockApiService.getProducts()).thenThrow(Exception());
       // act
       final result = await repository.getProductList();
