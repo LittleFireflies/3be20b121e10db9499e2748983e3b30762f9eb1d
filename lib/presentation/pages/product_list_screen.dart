@@ -1,6 +1,7 @@
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kulina_app/presentation/bloc/product_cart/product_cart_bloc.dart';
 import 'package:kulina_app/presentation/bloc/product_list/product_list_bloc.dart';
@@ -68,25 +69,30 @@ class _ProductListScreenState extends State<ProductListScreen> {
                         final gridHeight = 400;
                         final gridWidth = screenWidth / 2 - 16;
 
-                        return GridView.count(
-                          crossAxisCount: 2,
-                          childAspectRatio: gridWidth / gridHeight,
-                          // mainAxisSpacing: 16,
-                          crossAxisSpacing: 16,
-                          children: state.products
-                              .map((product) => ProductItem(
-                                    product: product,
-                                    selectedDate: _selectedDate,
-                                    onAddToCart: () {
-                                      context
-                                          .read<ProductCartBloc>()
-                                          .add(AddToCartEvent(
-                                            product: product,
-                                            date: _selectedDate,
-                                          ));
-                                    },
-                                  ))
-                              .toList(),
+                        return GridView.builder(
+                          padding: const EdgeInsets.only(bottom: 32),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: gridWidth / gridHeight,
+                            crossAxisSpacing: 16,
+                          ),
+                          itemCount: state.products.length,
+                          itemBuilder: (context, index) {
+                            final product = state.products[index];
+                            return ProductItem(
+                              product: product,
+                              selectedDate: _selectedDate,
+                              onAddToCart: () {
+                                context
+                                    .read<ProductCartBloc>()
+                                    .add(AddToCartEvent(
+                                      product: product,
+                                      date: _selectedDate,
+                                    ));
+                              },
+                            );
+                          },
                         );
                       } else if (state is ProductListError) {
                         return Center(
