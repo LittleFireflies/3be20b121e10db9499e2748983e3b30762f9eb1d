@@ -30,3 +30,16 @@ class Product extends Equatable {
         rating,
       ];
 }
+
+class ProductOrder extends Equatable {
+  Product product;
+  DateTime date;
+
+  ProductOrder({
+    required this.product,
+    required this.date,
+  });
+
+  @override
+  List<Object> get props => [product, date];
+}

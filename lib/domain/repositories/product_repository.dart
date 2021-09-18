@@ -4,4 +4,5 @@ import 'package:kulina_app/utils/failure.dart';
 
 abstract class ProductRepository {
   Future<Either<Failure, List<Product>>> getProductList();
+  void saveToCart(ProductOrder productOrder);
 }
