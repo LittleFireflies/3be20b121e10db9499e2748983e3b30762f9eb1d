@@ -13,8 +13,10 @@ class ProductCartBloc extends Bloc<ProductCartEvent, ProductCartState> {
   final GetCartList getCartList;
   final AddToCart addToCart;
 
-  ProductCartBloc({required this.getCartList, required this.addToCart})
-      : super(ProductCartState(carts: [], totalPrice: 0));
+  ProductCartBloc({
+    required this.getCartList,
+    required this.addToCart,
+  }) : super(ProductCartState(carts: [], totalPrice: 0));
 
   @override
   Stream<ProductCartState> mapEventToState(
@@ -26,6 +28,9 @@ class ProductCartBloc extends Bloc<ProductCartEvent, ProductCartState> {
       final cart = await getCartList.execute();
       yield ProductCartState(carts: cart, totalPrice: _countTotalPrice(cart));
     } else if (event is GetCartEvent) {
+      final cart = await getCartList.execute();
+      yield ProductCartState(carts: cart, totalPrice: _countTotalPrice(cart));
+    } else if (event is GetProductStatusEvent) {
       final cart = await getCartList.execute();
       yield ProductCartState(carts: cart, totalPrice: _countTotalPrice(cart));
     }

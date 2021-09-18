@@ -16,8 +16,10 @@ final locator = GetIt.instance;
 void init() {
   // bloc
   locator.registerFactory(() => ProductListBloc(locator()));
-  locator.registerFactory(
-      () => ProductCartBloc(getCartList: locator(), addToCart: locator()));
+  locator.registerFactory(() => ProductCartBloc(
+        getCartList: locator(),
+        addToCart: locator(),
+      ));
 
   // use case
   locator.registerLazySingleton(() => GetProductList(locator()));

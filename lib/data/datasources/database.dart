@@ -4,6 +4,7 @@ import 'package:kulina_app/data/models/product_table.dart';
 abstract class Database {
   void addToCart(ProductOrderTable productOrder);
   Future<List<ProductOrderTable>> getAllCarts();
+  Future<ProductOrderTable?> getCartsByProductId(int id);
 }
 
 class DatabaseSQLiteImpl extends Database {
@@ -19,5 +20,11 @@ class DatabaseSQLiteImpl extends Database {
   @override
   Future<List<ProductOrderTable>> getAllCarts() {
     return helper.getCarts();
+  }
+
+  @override
+  Future<ProductOrderTable?> getCartsByProductId(int id) {
+    // TODO: implement getCartsByProductId
+    throw UnimplementedError();
   }
 }

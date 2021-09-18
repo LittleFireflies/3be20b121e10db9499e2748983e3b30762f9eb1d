@@ -72,31 +72,32 @@ class ProductItem extends StatelessWidget {
         ),
         BlocBuilder<ProductCartBloc, ProductCartState>(
           builder: (context, state) {
-            if (!state.carts.contains(product)) {
-              return OutlinedButton(
-                onPressed: onAddToCart,
-                child: Text('Tambah ke keranjang'),
-              );
-            } else {
-              return Row(
-                children: [
-                  OutlinedButton(
-                    onPressed: () {},
-                    child: Text('-'),
-                  ),
-                  Expanded(
-                    child: Text(
-                      '1',
-                      textAlign: TextAlign.center,
+            for (var productOrder in state.carts) {
+              if (product == productOrder.product) {
+                return Row(
+                  children: [
+                    OutlinedButton(
+                      onPressed: () {},
+                      child: Text('-'),
                     ),
-                  ),
-                  OutlinedButton(
-                    onPressed: () {},
-                    child: Text('+'),
-                  ),
-                ],
-              );
+                    Expanded(
+                      child: Text(
+                        '1',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    OutlinedButton(
+                      onPressed: () {},
+                      child: Text('+'),
+                    ),
+                  ],
+                );
+              }
             }
+            return OutlinedButton(
+              onPressed: onAddToCart,
+              child: Text('Tambah ke keranjang'),
+            );
           },
         ),
       ],

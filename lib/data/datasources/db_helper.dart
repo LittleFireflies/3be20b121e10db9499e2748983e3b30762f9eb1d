@@ -56,4 +56,20 @@ class DatabaseHelper {
 
     return results.map((res) => ProductOrderTable.fromJson(res)).toList();
   }
+
+  Future<ProductOrderTable?> getCartsById(int id) async {
+    final db = await database;
+
+    List<Map<String, dynamic>> results = await db!.query(
+      _tblCart,
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+
+    if (results.isNotEmpty) {
+      return ProductOrderTable.fromJson(results.first);
+    } else {
+      return null;
+    }
+  }
 }
