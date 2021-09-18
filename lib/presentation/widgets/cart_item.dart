@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kulina_app/domain/entities/product.dart';
 import 'package:kulina_app/presentation/bloc/product_cart/product_cart_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kulina_app/utils/number_utils.dart';
 
 class CartItem extends StatelessWidget {
   final ProductOrder order;
@@ -49,7 +50,8 @@ class CartItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Flexible(
-                      child: Text('Rp ${order.product.price * order.quantity}'),
+                      child: Text(
+                          '${currencyFormat(order.product.price * order.quantity)}'),
                     ),
                     Container(
                       child: Row(

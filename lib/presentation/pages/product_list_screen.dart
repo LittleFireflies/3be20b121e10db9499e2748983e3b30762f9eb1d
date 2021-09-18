@@ -65,13 +65,13 @@ class _ProductListScreenState extends State<ProductListScreen> {
                         );
                       } else if (state is ProductListHasData) {
                         final screenWidth = MediaQuery.of(context).size.width;
-                        final gridHeight = 350;
+                        final gridHeight = 400;
                         final gridWidth = screenWidth / 2 - 16;
 
                         return GridView.count(
                           crossAxisCount: 2,
                           childAspectRatio: gridWidth / gridHeight,
-                          mainAxisSpacing: 16,
+                          // mainAxisSpacing: 16,
                           crossAxisSpacing: 16,
                           children: state.products
                               .map((product) => ProductItem(

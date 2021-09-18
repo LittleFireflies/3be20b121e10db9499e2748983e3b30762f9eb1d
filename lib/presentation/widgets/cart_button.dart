@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kulina_app/presentation/bloc/product_cart/product_cart_bloc.dart';
+import 'package:kulina_app/utils/number_utils.dart';
 
 class CartButton extends StatelessWidget {
   ProductCartState state;
@@ -12,7 +13,7 @@ class CartButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        primary: Colors.red,
+        primary: Colors.blue,
         onPrimary: Colors.white,
         padding: const EdgeInsets.all(16.0),
       ),
@@ -24,7 +25,7 @@ class CartButton extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${state.carts.length} item | Rp ${state.totalPrice}',
+                '${state.carts.length} item | ${currencyFormat(state.totalPrice)}',
                 style: TextStyle(color: Colors.white),
               ),
               Text(

@@ -5,6 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:kulina_app/domain/entities/product.dart';
 import 'package:kulina_app/presentation/bloc/product_cart/product_cart_bloc.dart';
 import 'package:kulina_app/utils/date_utils.dart';
+import 'package:kulina_app/utils/number_utils.dart';
 
 class ProductItem extends StatelessWidget {
   final Product product;
@@ -64,7 +65,7 @@ class ProductItem extends StatelessWidget {
         Wrap(
           children: [
             Text(
-              'Rp ${product.price}',
+              '${currencyFormat(product.price)}',
               style:
                   Theme.of(context).textTheme.headline6!.copyWith(fontSize: 14),
             ),
@@ -109,6 +110,9 @@ class ProductItem extends StatelessWidget {
               }
             }
             return OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                  textStyle: TextStyle(fontSize: 12),
+                  minimumSize: Size(double.infinity, 30)),
               onPressed: onAddToCart,
               child: Text('Tambah ke keranjang'),
             );
