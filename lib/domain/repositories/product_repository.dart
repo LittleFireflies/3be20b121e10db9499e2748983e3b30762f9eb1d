@@ -8,4 +8,5 @@ abstract class ProductRepository {
   void removeFromCart(ProductOrder productOrder);
   Future<List<ProductOrder>> getCarts();
   void updateCart(ProductOrder product);
+  void clearCart();
 }

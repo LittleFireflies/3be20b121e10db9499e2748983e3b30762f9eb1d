@@ -52,3 +52,5 @@ class RemoveCartItem extends ProductCartEvent {
   @override
   List<Object?> get props => [productOrder];
 }
+
+class RemoveOrder extends ProductCartEvent {}

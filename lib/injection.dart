@@ -6,6 +6,7 @@ import 'package:kulina_app/data/datasources/db_helper.dart';
 import 'package:kulina_app/data/repositories/product_repository_impl.dart';
 import 'package:kulina_app/domain/repositories/product_repository.dart';
 import 'package:kulina_app/domain/usecases/add_to_cart.dart';
+import 'package:kulina_app/domain/usecases/empty_cart.dart';
 import 'package:kulina_app/domain/usecases/get_cart_list.dart';
 import 'package:kulina_app/domain/usecases/get_product_list.dart';
 import 'package:kulina_app/domain/usecases/update_quantity.dart';
@@ -21,6 +22,7 @@ void init() {
         getCartList: locator(),
         addToCart: locator(),
         updateQuantity: locator(),
+        emptyCart: locator(),
       ));
 
   // use case
@@ -28,6 +30,7 @@ void init() {
   locator.registerLazySingleton(() => GetCartList(locator()));
   locator.registerLazySingleton(() => AddToCart(locator()));
   locator.registerLazySingleton(() => UpdateQuantity(locator()));
+  locator.registerLazySingleton(() => EmptyCart(locator()));
 
   // repository
   locator.registerLazySingleton<ProductRepository>(

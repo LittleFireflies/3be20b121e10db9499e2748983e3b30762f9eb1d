@@ -30,7 +30,9 @@ class _CartScreenState extends State<CartScreen> {
                     Text('Daftar Pesanan'),
                     TextButton(
                       child: Text('Hapus Pesanan'),
-                      onPressed: () {},
+                      onPressed: () {
+                        context.read<ProductCartBloc>().add(RemoveOrder());
+                      },
                     )
                   ],
                 ),

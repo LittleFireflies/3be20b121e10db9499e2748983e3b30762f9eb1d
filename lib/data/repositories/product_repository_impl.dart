@@ -46,4 +46,9 @@ class ProductRepositoryImpl extends ProductRepository {
   void updateCart(ProductOrder product) async {
     database.updateCart(ProductOrderTable.fromEntity(product));
   }
+
+  @override
+  void clearCart() async {
+    database.clearCart();
+  }
 }

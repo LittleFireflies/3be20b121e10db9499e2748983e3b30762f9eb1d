@@ -88,4 +88,9 @@ class DatabaseHelper {
       whereArgs: [id],
     );
   }
+
+  Future<void> removeAllCart() async {
+    final db = await database;
+    await db!.delete(_tblCart);
+  }
 }

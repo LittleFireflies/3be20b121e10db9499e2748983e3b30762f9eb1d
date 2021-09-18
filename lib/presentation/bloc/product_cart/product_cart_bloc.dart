@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:kulina_app/domain/entities/product.dart';
 import 'package:kulina_app/domain/usecases/add_to_cart.dart';
+import 'package:kulina_app/domain/usecases/empty_cart.dart';
 import 'package:kulina_app/domain/usecases/get_cart_list.dart';
 import 'package:kulina_app/domain/usecases/update_quantity.dart';
 
@@ -14,11 +15,13 @@ class ProductCartBloc extends Bloc<ProductCartEvent, ProductCartState> {
   final GetCartList getCartList;
   final AddToCart addToCart;
   final UpdateQuantity updateQuantity;
+  final EmptyCart emptyCart;
 
   ProductCartBloc({
     required this.getCartList,
     required this.addToCart,
     required this.updateQuantity,
+    required this.emptyCart,
   }) : super(ProductCartState(carts: [], totalPrice: 0));
 
   @override
@@ -49,6 +52,13 @@ class ProductCartBloc extends Bloc<ProductCartEvent, ProductCartState> {
       );
     } else if (event is RemoveCartItem) {
       updateQuantity.execute(event.productOrder, 0);
+      final cart = await getCartList.execute();
+      yield ProductCartState(
+        carts: cart,
+        totalPrice: _countTotalPrice(cart),
+      );
+    } else if (event is RemoveOrder) {
+      emptyCart.execute();
       final cart = await getCartList.execute();
       yield ProductCartState(
         carts: cart,
