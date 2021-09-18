@@ -38,7 +38,7 @@ class DatabaseSQLiteImpl extends Database {
 
   @override
   void removeFromCart(ProductOrderTable productOrder) {
-    helper.removeFromCart(productOrder.product.id);
+    helper.removeFromCart(productOrder);
   }
 
   @override

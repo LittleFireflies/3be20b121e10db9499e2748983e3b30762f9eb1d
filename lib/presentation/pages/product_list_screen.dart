@@ -76,6 +76,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           children: state.products
                               .map((product) => ProductItem(
                                     product: product,
+                                    selectedDate: _selectedDate,
                                     onAddToCart: () {
                                       context
                                           .read<ProductCartBloc>()

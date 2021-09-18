@@ -1,5 +1,4 @@
 import 'package:kulina_app/data/models/product_table.dart';
-import 'package:kulina_app/domain/entities/product.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
@@ -76,16 +75,20 @@ class DatabaseHelper {
 
   Future<void> updateCart(ProductOrderTable productOrder) async {
     final db = await database;
-    await db!.update(_tblCart, productOrder.toJson(),
-        where: 'id = ?', whereArgs: [productOrder.product.id]);
+    await db!.update(
+      _tblCart,
+      productOrder.toJson(),
+      where: 'id = ? and date = ?',
+      whereArgs: [productOrder.product.id, productOrder.date.toIso8601String()],
+    );
   }
 
-  Future<void> removeFromCart(int id) async {
+  Future<void> removeFromCart(ProductOrderTable productOrder) async {
     final db = await database;
     await db!.delete(
       _tblCart,
-      where: 'id = ?',
-      whereArgs: [id],
+      where: 'id = ? and date = ?',
+      whereArgs: [productOrder.product.id, productOrder.date.toIso8601String()],
     );
   }
 

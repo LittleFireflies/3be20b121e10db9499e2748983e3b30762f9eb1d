@@ -37,6 +37,7 @@ class ProductCartBloc extends Bloc<ProductCartEvent, ProductCartState> {
       final cart = await getCartList.execute();
       yield ProductCartState(carts: cart, totalPrice: _countTotalPrice(cart));
     } else if (event is IncrementProductOrder) {
+      print(event.product.date);
       updateQuantity.execute(event.product, event.product.quantity + 1);
       final cart = await getCartList.execute();
       yield ProductCartState(

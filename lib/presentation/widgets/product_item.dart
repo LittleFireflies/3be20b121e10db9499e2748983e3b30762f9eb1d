@@ -4,12 +4,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:kulina_app/domain/entities/product.dart';
 import 'package:kulina_app/presentation/bloc/product_cart/product_cart_bloc.dart';
+import 'package:kulina_app/utils/date_utils.dart';
 
 class ProductItem extends StatelessWidget {
   final Product product;
+  final DateTime selectedDate;
   final Function() onAddToCart;
 
-  ProductItem({required this.product, required this.onAddToCart});
+  ProductItem(
+      {required this.product,
+      required this.selectedDate,
+      required this.onAddToCart});
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +78,8 @@ class ProductItem extends StatelessWidget {
         BlocBuilder<ProductCartBloc, ProductCartState>(
           builder: (context, state) {
             for (var productOrder in state.carts) {
-              if (product == productOrder.product) {
+              if (product == productOrder.product &&
+                  productOrder.date.isSameDate(selectedDate)) {
                 return Row(
                   children: [
                     OutlinedButton(

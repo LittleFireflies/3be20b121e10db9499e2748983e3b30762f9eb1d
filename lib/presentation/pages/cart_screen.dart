@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grouped_list/grouped_list.dart';
+import 'package:kulina_app/domain/entities/product.dart';
 import 'package:kulina_app/presentation/bloc/product_cart/product_cart_bloc.dart';
 import 'package:kulina_app/presentation/widgets/cart_button.dart';
 import 'package:kulina_app/presentation/widgets/cart_item.dart';
+import 'package:kulina_app/utils/date_utils.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -47,7 +50,13 @@ class _CartScreenState extends State<CartScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Daftar Pesanan'),
+                      Text(
+                        'Daftar Pesanan',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       TextButton(
                         child: Text('Hapus Pesanan'),
                         onPressed: () {
@@ -57,12 +66,18 @@ class _CartScreenState extends State<CartScreen> {
                     ],
                   ),
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: state.carts.length,
-                      itemBuilder: (context, index) {
-                        return CartItem(
-                          order: state.carts[index],
+                    child: GroupedListView<ProductOrder, DateTime>(
+                      elements: state.carts,
+                      groupBy: (cart) => cart.date,
+                      groupSeparatorBuilder: (date) {
+                        return Text(
+                          '${getFullDateFormat(date)}',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
                         );
+                      },
+                      itemBuilder: (context, productOrder) {
+                        return CartItem(order: productOrder);
                       },
                     ),
                   ),
