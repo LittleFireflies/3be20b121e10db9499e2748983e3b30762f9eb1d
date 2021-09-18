@@ -4,6 +4,7 @@ import 'package:http/http.dart';
 import 'package:kulina_app/data/datasources/api_service.dart';
 import 'package:kulina_app/data/repositories/product_repository_impl.dart';
 import 'package:kulina_app/domain/usecases/get_product_list.dart';
+import 'package:kulina_app/presentation/bloc/product_cart/product_cart_bloc.dart';
 import 'package:kulina_app/presentation/bloc/product_list/product_list_bloc.dart';
 import 'package:kulina_app/product_list_screen.dart';
 
@@ -30,6 +31,9 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
+          BlocProvider(
+            create: (_) => ProductCartBloc(),
+          )
         ],
         child: ProductListScreen(),
       ),

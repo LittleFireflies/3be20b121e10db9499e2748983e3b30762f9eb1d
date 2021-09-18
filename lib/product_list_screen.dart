@@ -1,8 +1,10 @@
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:kulina_app/domain/entities/product.dart';
+import 'package:kulina_app/presentation/bloc/product_cart/product_cart_bloc.dart';
 import 'package:kulina_app/presentation/bloc/product_list/product_list_bloc.dart';
 import 'package:kulina_app/utils/date_utils.dart';
 
@@ -50,34 +52,89 @@ class _ProductListScreenState extends State<ProductListScreen> {
               style: Theme.of(context).textTheme.headline6,
             ),
             SizedBox(height: 16),
-            BlocBuilder<ProductListBloc, ProductListState>(
-              builder: (context, state) {
-                if (state is LoadingProductList) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state is ProductListHasData) {
-                  return Expanded(
-                    child: GridView.count(
-                      crossAxisCount: 2,
-                      childAspectRatio: 1 / 2,
-                      mainAxisSpacing: 16,
-                      crossAxisSpacing: 16,
-                      children: state.products
-                          .map((product) => ProductItem(
-                                product: product,
-                              ))
-                          .toList(),
-                    ),
-                  );
-                } else if (state is ProductListError) {
-                  return Center(
-                    child: Text(state.message),
-                  );
-                } else {
-                  return Container();
-                }
-              },
+            Expanded(
+              child: Stack(
+                children: [
+                  BlocBuilder<ProductListBloc, ProductListState>(
+                    builder: (context, state) {
+                      if (state is LoadingProductList) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (state is ProductListHasData) {
+                        return GridView.count(
+                          crossAxisCount: 2,
+                          childAspectRatio: 1 / 2,
+                          mainAxisSpacing: 16,
+                          crossAxisSpacing: 16,
+                          children: state.products
+                              .map((product) => ProductItem(
+                                    product: product,
+                                  ))
+                              .toList(),
+                        );
+                      } else if (state is ProductListError) {
+                        return Center(
+                          child: Text(state.message),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
+                  BlocBuilder<ProductCartBloc, ProductCartState>(
+                    // buildWhen: (oldState, newState) {
+                    //   print('old: ${oldState.carts.length}');
+                    //   print('new: ${newState.carts.length}');
+                    //   return oldState.carts.length != newState.carts.length;
+                    // },
+                    builder: (context, state) {
+                      if (state.carts.isEmpty) {
+                        return Container();
+                      } else {
+                        return Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            color: Colors.red,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '${state.carts.length} item',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      Text(
+                                        'Termasuk ongkos kirim',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
+                                  IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(
+                                      Icons.shopping_cart,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -149,9 +206,36 @@ class ProductItem extends StatelessWidget {
             ),
           ],
         ),
-        OutlinedButton(
-          onPressed: () {},
-          child: Text('Tambah ke keranjang'),
+        BlocBuilder<ProductCartBloc, ProductCartState>(
+          builder: (context, state) {
+            if (!state.carts.contains(product)) {
+              return OutlinedButton(
+                onPressed: () {
+                  context.read<ProductCartBloc>().add(AddToCart(product));
+                },
+                child: Text('Tambah ke keranjang'),
+              );
+            } else {
+              return Row(
+                children: [
+                  OutlinedButton(
+                    onPressed: () {},
+                    child: Text('-'),
+                  ),
+                  Expanded(
+                    child: Text(
+                      '1',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  OutlinedButton(
+                    onPressed: () {},
+                    child: Text('+'),
+                  ),
+                ],
+              );
+            }
+          },
         ),
       ],
     );
