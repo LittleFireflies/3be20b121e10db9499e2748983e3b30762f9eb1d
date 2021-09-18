@@ -6,4 +6,5 @@ abstract class ProductRepository {
   Future<Either<Failure, List<Product>>> getProductList();
   void saveToCart(ProductOrder productOrder);
   Future<List<ProductOrder>> getCarts();
+  void updateCart(ProductOrder product);
 }

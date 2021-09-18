@@ -1,12 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:kulina_app/domain/entities/product.dart';
+import 'package:kulina_app/presentation/bloc/product_cart/product_cart_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CartItem extends StatelessWidget {
-  final Product product;
+class CartItem extends StatefulWidget {
+  final ProductOrder order;
 
-  CartItem({required this.product});
+  CartItem({required this.order});
 
+  @override
+  _CartItemState createState() => _CartItemState();
+}
+
+class _CartItemState extends State<CartItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,7 +23,7 @@ class CartItem extends StatelessWidget {
           Expanded(
             flex: 3,
             child: CachedNetworkImage(
-              imageUrl: product.imageUrl,
+              imageUrl: widget.order.product.imageUrl,
             ),
           ),
           SizedBox(width: 8),
@@ -30,7 +37,7 @@ class CartItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Flexible(
-                      child: Text(product.name),
+                      child: Text(widget.order.product.name),
                     ),
                     IconButton(
                       onPressed: () {},
@@ -38,12 +45,13 @@ class CartItem extends StatelessWidget {
                     )
                   ],
                 ),
-                Text(product.brandName),
+                Text(widget.order.product.brandName),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Flexible(
-                      child: Text('Rp ${product.price}'),
+                      child: Text(
+                          'Rp ${widget.order.product.price * widget.order.quantity}'),
                     ),
                     Container(
                       child: Row(
@@ -52,9 +60,12 @@ class CartItem extends StatelessWidget {
                             onPressed: () {},
                             child: Text('-'),
                           ),
-                          Text('1'),
+                          Text('${widget.order.quantity}'),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              context.read<ProductCartBloc>().add(
+                                  IncrementProductOrder(product: widget.order));
+                            },
                             child: Text('+'),
                           ),
                         ],

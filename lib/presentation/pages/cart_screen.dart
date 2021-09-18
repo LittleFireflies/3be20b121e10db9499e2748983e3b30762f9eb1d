@@ -39,7 +39,7 @@ class _CartScreenState extends State<CartScreen> {
                     itemCount: state.carts.length,
                     itemBuilder: (context, index) {
                       return CartItem(
-                        product: state.carts[index].product,
+                        order: state.carts[index],
                       );
                     },
                   ),

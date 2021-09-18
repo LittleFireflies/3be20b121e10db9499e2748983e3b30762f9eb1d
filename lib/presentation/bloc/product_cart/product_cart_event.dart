@@ -26,12 +26,11 @@ class GetCartEvent extends ProductCartEvent {
   List<Object?> get props => [date];
 }
 
-class GetProductStatusEvent extends ProductCartEvent {
-  final Product product;
+class IncrementProductOrder extends ProductCartEvent {
+  final ProductOrder product;
 
-  GetProductStatusEvent(this.product);
+  IncrementProductOrder({required this.product});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [product];
 }

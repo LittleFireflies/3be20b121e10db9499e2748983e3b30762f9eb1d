@@ -5,6 +5,7 @@ abstract class Database {
   void addToCart(ProductOrderTable productOrder);
   Future<List<ProductOrderTable>> getAllCarts();
   Future<ProductOrderTable?> getCartsByProductId(int id);
+  void updateCart(ProductOrderTable productOrder);
 }
 
 class DatabaseSQLiteImpl extends Database {
@@ -26,5 +27,10 @@ class DatabaseSQLiteImpl extends Database {
   Future<ProductOrderTable?> getCartsByProductId(int id) {
     // TODO: implement getCartsByProductId
     throw UnimplementedError();
+  }
+
+  @override
+  void updateCart(ProductOrderTable productOrder) {
+    helper.updateCart(productOrder);
   }
 }

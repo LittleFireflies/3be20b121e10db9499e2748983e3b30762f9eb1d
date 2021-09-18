@@ -36,4 +36,9 @@ class ProductRepositoryImpl extends ProductRepository {
     return Future.value(
         result.map((productOrder) => productOrder.toEntity()).toList());
   }
+
+  @override
+  void updateCart(ProductOrder product) async {
+    database.updateCart(ProductOrderTable.fromEntity(product));
+  }
 }

@@ -82,12 +82,16 @@ class ProductItem extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        '1',
+                        '${productOrder.quantity}',
                         textAlign: TextAlign.center,
                       ),
                     ),
                     OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context
+                            .read<ProductCartBloc>()
+                            .add(IncrementProductOrder(product: productOrder));
+                      },
                       child: Text('+'),
                     ),
                   ],

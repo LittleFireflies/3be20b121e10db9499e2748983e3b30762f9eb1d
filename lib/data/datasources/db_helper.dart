@@ -1,4 +1,5 @@
 import 'package:kulina_app/data/models/product_table.dart';
+import 'package:kulina_app/domain/entities/product.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
@@ -71,5 +72,11 @@ class DatabaseHelper {
     } else {
       return null;
     }
+  }
+
+  Future<void> updateCart(ProductOrderTable productOrder) async {
+    final db = await database;
+    await db!.update(_tblCart, productOrder.toJson(),
+        where: 'id = ?', whereArgs: [productOrder.product.id]);
   }
 }

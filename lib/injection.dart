@@ -8,6 +8,7 @@ import 'package:kulina_app/domain/repositories/product_repository.dart';
 import 'package:kulina_app/domain/usecases/add_to_cart.dart';
 import 'package:kulina_app/domain/usecases/get_cart_list.dart';
 import 'package:kulina_app/domain/usecases/get_product_list.dart';
+import 'package:kulina_app/domain/usecases/update_quantity.dart';
 import 'package:kulina_app/presentation/bloc/product_cart/product_cart_bloc.dart';
 import 'package:kulina_app/presentation/bloc/product_list/product_list_bloc.dart';
 
@@ -19,12 +20,14 @@ void init() {
   locator.registerFactory(() => ProductCartBloc(
         getCartList: locator(),
         addToCart: locator(),
+        updateQuantity: locator(),
       ));
 
   // use case
   locator.registerLazySingleton(() => GetProductList(locator()));
   locator.registerLazySingleton(() => GetCartList(locator()));
   locator.registerLazySingleton(() => AddToCart(locator()));
+  locator.registerLazySingleton(() => UpdateQuantity(locator()));
 
   // repository
   locator.registerLazySingleton<ProductRepository>(
