@@ -22,44 +22,65 @@ class _CartScreenState extends State<CartScreen> {
         padding: const EdgeInsets.all(16.0),
         child: BlocBuilder<ProductCartBloc, ProductCartState>(
           builder: (context, state) {
-            return Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Daftar Pesanan'),
-                    TextButton(
-                      child: Text('Hapus Pesanan'),
-                      onPressed: () {
-                        context.read<ProductCartBloc>().add(RemoveOrder());
-                      },
-                    )
-                  ],
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: state.carts.length,
-                    itemBuilder: (context, index) {
-                      return CartItem(
-                        order: state.carts[index],
-                      );
-                    },
-                  ),
-                ),
-                CartButton(
-                  state,
-                  actionWidget: TextButton(
-                    child: Row(
-                      children: [
-                        Text('Checkout'),
-                        Icon(Icons.chevron_right),
-                      ],
+            if (state.carts.isEmpty) {
+              return Column(
+                children: [
+                  Expanded(
+                    child: Center(
+                      child: Text('Keranjangmu masih kosong, nih.'),
                     ),
-                    onPressed: () {},
                   ),
-                ),
-              ],
-            );
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(double.infinity, 30),
+                      primary: Colors.red,
+                      padding: const EdgeInsets.all(16.0),
+                    ),
+                    onPressed: () => Navigator.pop(context),
+                    child: Text('Pesan Sekarang'),
+                  ),
+                ],
+              );
+            } else {
+              return Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Daftar Pesanan'),
+                      TextButton(
+                        child: Text('Hapus Pesanan'),
+                        onPressed: () {
+                          context.read<ProductCartBloc>().add(RemoveOrder());
+                        },
+                      )
+                    ],
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: state.carts.length,
+                      itemBuilder: (context, index) {
+                        return CartItem(
+                          order: state.carts[index],
+                        );
+                      },
+                    ),
+                  ),
+                  CartButton(
+                    state,
+                    actionWidget: TextButton(
+                      child: Row(
+                        children: [
+                          Text('Checkout'),
+                          Icon(Icons.chevron_right),
+                        ],
+                      ),
+                      onPressed: () {},
+                    ),
+                  ),
+                ],
+              );
+            }
           },
         ),
       ),
