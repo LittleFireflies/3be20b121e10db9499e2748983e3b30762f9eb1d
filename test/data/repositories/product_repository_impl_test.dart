@@ -10,7 +10,7 @@ import 'package:kulina_app/utils/failure.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import 'product_repositpry_impl_test.mocks.dart';
+import 'product_repository_impl_test.mocks.dart';
 
 @GenerateMocks([ApiService, Database])
 void main() {
