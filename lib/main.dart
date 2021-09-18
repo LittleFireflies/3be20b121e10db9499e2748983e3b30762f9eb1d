@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart';
-import 'package:kulina_app/data/datasources/api_service.dart';
-import 'package:kulina_app/data/datasources/database.dart';
-import 'package:kulina_app/data/datasources/db_helper.dart';
-import 'package:kulina_app/data/repositories/product_repository_impl.dart';
-import 'package:kulina_app/domain/usecases/add_to_cart.dart';
-import 'package:kulina_app/domain/usecases/get_cart_list.dart';
-import 'package:kulina_app/domain/usecases/get_product_list.dart';
 import 'package:kulina_app/presentation/bloc/product_cart/product_cart_bloc.dart';
 import 'package:kulina_app/presentation/bloc/product_list/product_list_bloc.dart';
 import 'package:kulina_app/presentation/pages/product_list_screen.dart';
+import 'package:kulina_app/injection.dart' as di;
 
 void main() {
+  di.init();
   runApp(MyApp());
 }
 
@@ -22,30 +16,10 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => ProductListBloc(
-            GetProductList(
-              ProductRepositoryImpl(
-                apiService: ApiServiceImpl(client: Client()),
-                database: DatabaseSQLiteImpl(DatabaseHelper()),
-              ),
-            ),
-          ),
+          create: (_) => di.locator<ProductListBloc>(),
         ),
         BlocProvider(
-          create: (_) => ProductCartBloc(
-            addToCart: AddToCart(
-              ProductRepositoryImpl(
-                apiService: ApiServiceImpl(client: Client()),
-                database: DatabaseSQLiteImpl(DatabaseHelper()),
-              ),
-            ),
-            getCartList: GetCartList(
-              ProductRepositoryImpl(
-                apiService: ApiServiceImpl(client: Client()),
-                database: DatabaseSQLiteImpl(DatabaseHelper()),
-              ),
-            ),
-          ),
+          create: (_) => di.locator<ProductCartBloc>(),
         )
       ],
       child: MaterialApp(
