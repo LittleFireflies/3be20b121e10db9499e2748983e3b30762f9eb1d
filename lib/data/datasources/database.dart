@@ -6,6 +6,7 @@ abstract class Database {
   Future<List<ProductOrderTable>> getAllCarts();
   Future<ProductOrderTable?> getCartsByProductId(int id);
   void updateCart(ProductOrderTable productOrder);
+  void removeFromCart(ProductOrderTable productOrder);
 }
 
 class DatabaseSQLiteImpl extends Database {
@@ -32,5 +33,10 @@ class DatabaseSQLiteImpl extends Database {
   @override
   void updateCart(ProductOrderTable productOrder) {
     helper.updateCart(productOrder);
+  }
+
+  @override
+  void removeFromCart(ProductOrderTable productOrder) {
+    helper.removeFromCart(productOrder.product.id);
   }
 }

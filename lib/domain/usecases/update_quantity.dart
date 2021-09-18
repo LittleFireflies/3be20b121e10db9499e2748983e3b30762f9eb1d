@@ -7,7 +7,11 @@ class UpdateQuantity {
   UpdateQuantity(this.repository);
 
   execute(ProductOrder product, int newQuantity) {
-    product.quantity = newQuantity;
-    repository.updateCart(product);
+    if (newQuantity <= 0) {
+      repository.removeFromCart(product);
+    } else {
+      product.quantity = newQuantity;
+      repository.updateCart(product);
+    }
   }
 }

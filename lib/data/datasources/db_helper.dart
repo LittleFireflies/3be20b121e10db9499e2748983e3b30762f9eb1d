@@ -79,4 +79,13 @@ class DatabaseHelper {
     await db!.update(_tblCart, productOrder.toJson(),
         where: 'id = ?', whereArgs: [productOrder.product.id]);
   }
+
+  Future<void> removeFromCart(int id) async {
+    final db = await database;
+    await db!.delete(
+      _tblCart,
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
 }

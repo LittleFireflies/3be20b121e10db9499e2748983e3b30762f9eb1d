@@ -77,7 +77,11 @@ class ProductItem extends StatelessWidget {
                 return Row(
                   children: [
                     OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context
+                            .read<ProductCartBloc>()
+                            .add(DecrementProductOrder(product: productOrder));
+                      },
                       child: Text('-'),
                     ),
                     Expanded(

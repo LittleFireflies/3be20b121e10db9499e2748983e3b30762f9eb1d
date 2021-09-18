@@ -4,16 +4,11 @@ import 'package:kulina_app/domain/entities/product.dart';
 import 'package:kulina_app/presentation/bloc/product_cart/product_cart_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CartItem extends StatefulWidget {
+class CartItem extends StatelessWidget {
   final ProductOrder order;
 
   CartItem({required this.order});
 
-  @override
-  _CartItemState createState() => _CartItemState();
-}
-
-class _CartItemState extends State<CartItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,7 +18,7 @@ class _CartItemState extends State<CartItem> {
           Expanded(
             flex: 3,
             child: CachedNetworkImage(
-              imageUrl: widget.order.product.imageUrl,
+              imageUrl: order.product.imageUrl,
             ),
           ),
           SizedBox(width: 8),
@@ -37,7 +32,7 @@ class _CartItemState extends State<CartItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Flexible(
-                      child: Text(widget.order.product.name),
+                      child: Text(order.product.name),
                     ),
                     IconButton(
                       onPressed: () {},
@@ -45,26 +40,30 @@ class _CartItemState extends State<CartItem> {
                     )
                   ],
                 ),
-                Text(widget.order.product.brandName),
+                Text(order.product.brandName),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Flexible(
-                      child: Text(
-                          'Rp ${widget.order.product.price * widget.order.quantity}'),
+                      child: Text('Rp ${order.product.price * order.quantity}'),
                     ),
                     Container(
                       child: Row(
                         children: [
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              context
+                                  .read<ProductCartBloc>()
+                                  .add(DecrementProductOrder(product: order));
+                            },
                             child: Text('-'),
                           ),
-                          Text('${widget.order.quantity}'),
+                          Text('${order.quantity}'),
                           TextButton(
                             onPressed: () {
-                              context.read<ProductCartBloc>().add(
-                                  IncrementProductOrder(product: widget.order));
+                              context
+                                  .read<ProductCartBloc>()
+                                  .add(IncrementProductOrder(product: order));
                             },
                             child: Text('+'),
                           ),

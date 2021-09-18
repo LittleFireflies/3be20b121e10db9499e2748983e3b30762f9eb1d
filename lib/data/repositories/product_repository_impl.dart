@@ -31,6 +31,11 @@ class ProductRepositoryImpl extends ProductRepository {
   }
 
   @override
+  void removeFromCart(ProductOrder productOrder) {
+    database.removeFromCart(ProductOrderTable.fromEntity(productOrder));
+  }
+
+  @override
   Future<List<ProductOrder>> getCarts() async {
     final result = await database.getAllCarts();
     return Future.value(
