@@ -10,7 +10,7 @@ import 'package:kulina_app/domain/usecases/get_cart_list.dart';
 import 'package:kulina_app/domain/usecases/get_product_list.dart';
 import 'package:kulina_app/presentation/bloc/product_cart/product_cart_bloc.dart';
 import 'package:kulina_app/presentation/bloc/product_list/product_list_bloc.dart';
-import 'package:kulina_app/product_list_screen.dart';
+import 'package:kulina_app/presentation/pages/product_list_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,41 +19,41 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (_) => ProductListBloc(
-              GetProductList(
-                ProductRepositoryImpl(
-                  apiService: ApiServiceImpl(client: Client()),
-                  database: DatabaseSQLiteImpl(DatabaseHelper()),
-                ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => ProductListBloc(
+            GetProductList(
+              ProductRepositoryImpl(
+                apiService: ApiServiceImpl(client: Client()),
+                database: DatabaseSQLiteImpl(DatabaseHelper()),
               ),
             ),
           ),
-          BlocProvider(
-            create: (_) => ProductCartBloc(
-              addToCart: AddToCart(
-                ProductRepositoryImpl(
-                  apiService: ApiServiceImpl(client: Client()),
-                  database: DatabaseSQLiteImpl(DatabaseHelper()),
-                ),
-              ),
-              getCartList: GetCartList(
-                ProductRepositoryImpl(
-                  apiService: ApiServiceImpl(client: Client()),
-                  database: DatabaseSQLiteImpl(DatabaseHelper()),
-                ),
+        ),
+        BlocProvider(
+          create: (_) => ProductCartBloc(
+            addToCart: AddToCart(
+              ProductRepositoryImpl(
+                apiService: ApiServiceImpl(client: Client()),
+                database: DatabaseSQLiteImpl(DatabaseHelper()),
               ),
             ),
-          )
-        ],
-        child: ProductListScreen(),
+            getCartList: GetCartList(
+              ProductRepositoryImpl(
+                apiService: ApiServiceImpl(client: Client()),
+                database: DatabaseSQLiteImpl(DatabaseHelper()),
+              ),
+            ),
+          ),
+        )
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: ProductListScreen(),
       ),
     );
   }

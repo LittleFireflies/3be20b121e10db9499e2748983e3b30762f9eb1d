@@ -6,6 +6,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:kulina_app/domain/entities/product.dart';
 import 'package:kulina_app/presentation/bloc/product_cart/product_cart_bloc.dart';
 import 'package:kulina_app/presentation/bloc/product_list/product_list_bloc.dart';
+import 'package:kulina_app/presentation/pages/cart_screen.dart';
 import 'package:kulina_app/utils/date_utils.dart';
 
 class ProductListScreen extends StatefulWidget {
@@ -122,7 +123,13 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                     ],
                                   ),
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CartScreen()));
+                                    },
                                     icon: Icon(
                                       Icons.shopping_cart,
                                       color: Colors.white,
