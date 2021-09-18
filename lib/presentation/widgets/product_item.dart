@@ -40,6 +40,8 @@ class ProductItem extends StatelessWidget {
         ),
         Text(
           product.name,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.headline6!.copyWith(fontSize: 18),
         ),
         Text(

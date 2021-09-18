@@ -64,9 +64,13 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           child: CircularProgressIndicator(),
                         );
                       } else if (state is ProductListHasData) {
+                        final screenWidth = MediaQuery.of(context).size.width;
+                        final gridHeight = 350;
+                        final gridWidth = screenWidth / 2 - 16;
+
                         return GridView.count(
                           crossAxisCount: 2,
-                          childAspectRatio: 1 / 2.5,
+                          childAspectRatio: gridWidth / gridHeight,
                           mainAxisSpacing: 16,
                           crossAxisSpacing: 16,
                           children: state.products
