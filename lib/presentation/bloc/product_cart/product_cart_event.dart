@@ -9,9 +9,10 @@ abstract class ProductCartEvent extends Equatable {
 
 class AddToCartEvent extends ProductCartEvent {
   final Product product;
+  final DateTime date;
 
-  AddToCartEvent(this.product);
+  AddToCartEvent({required this.product, required this.date});
 
   @override
-  List<Object> get props => [product];
+  List<Object> get props => [product, date];
 }

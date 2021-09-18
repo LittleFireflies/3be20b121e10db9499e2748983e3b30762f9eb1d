@@ -26,7 +26,8 @@ class DatabaseHelper {
              packageName TEXT,
              price INTEGER,
              rating REAL,
-             date TEXT
+             date TEXT,
+             quantity INTEGER
            )     
         ''');
       },

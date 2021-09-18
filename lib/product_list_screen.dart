@@ -70,6 +70,14 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           children: state.products
                               .map((product) => ProductItem(
                                     product: product,
+                                    onAddToCart: () {
+                                      context
+                                          .read<ProductCartBloc>()
+                                          .add(AddToCartEvent(
+                                            product: product,
+                                            date: _selectedDate,
+                                          ));
+                                    },
                                   ))
                               .toList(),
                         );
@@ -83,11 +91,6 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     },
                   ),
                   BlocBuilder<ProductCartBloc, ProductCartState>(
-                    // buildWhen: (oldState, newState) {
-                    //   print('old: ${oldState.carts.length}');
-                    //   print('new: ${newState.carts.length}');
-                    //   return oldState.carts.length != newState.carts.length;
-                    // },
                     builder: (context, state) {
                       if (state.carts.isEmpty) {
                         return Container();
@@ -145,8 +148,9 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
 class ProductItem extends StatelessWidget {
   final Product product;
+  final Function() onAddToCart;
 
-  ProductItem({required this.product});
+  ProductItem({required this.product, required this.onAddToCart});
 
   @override
   Widget build(BuildContext context) {
@@ -210,9 +214,7 @@ class ProductItem extends StatelessWidget {
           builder: (context, state) {
             if (!state.carts.contains(product)) {
               return OutlinedButton(
-                onPressed: () {
-                  context.read<ProductCartBloc>().add(AddToCartEvent(product));
-                },
+                onPressed: onAddToCart,
                 child: Text('Tambah ke keranjang'),
               );
             } else {

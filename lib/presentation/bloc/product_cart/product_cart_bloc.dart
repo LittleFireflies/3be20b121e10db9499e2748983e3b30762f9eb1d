@@ -21,9 +21,8 @@ class ProductCartBloc extends Bloc<ProductCartEvent, ProductCartState> {
     ProductCartEvent event,
   ) async* {
     if (event is AddToCartEvent) {
-      print('Add');
-      addToCart
-          .execute(ProductOrder(product: event.product, date: DateTime.now()));
+      addToCart.execute(ProductOrder(
+          product: event.product, date: DateTime.now(), quantity: 1));
       yield ProductCartState(await getCartList.execute());
     }
   }

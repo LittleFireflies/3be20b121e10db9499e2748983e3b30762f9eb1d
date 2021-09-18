@@ -3,11 +3,13 @@ import 'package:kulina_app/domain/entities/product.dart';
 class ProductOrderTable {
   Product product;
   DateTime date;
+  int quantity;
 
-  ProductOrderTable(this.product, this.date);
+  ProductOrderTable(this.product, this.date, this.quantity);
 
   factory ProductOrderTable.fromEntity(ProductOrder productOrder) =>
-      ProductOrderTable(productOrder.product, productOrder.date);
+      ProductOrderTable(
+          productOrder.product, productOrder.date, productOrder.quantity);
 
   factory ProductOrderTable.fromJson(Map<String, dynamic> json) {
     final product = Product(
@@ -23,6 +25,7 @@ class ProductOrderTable {
     return ProductOrderTable(
       product,
       DateTime.parse(json["date"]),
+      json["quantity"],
     );
   }
 
@@ -34,8 +37,13 @@ class ProductOrderTable {
         "packageName": product.packageName,
         "price": product.price,
         "rating": product.rating,
-        "date": date.toIso8601String()
+        "date": date.toIso8601String(),
+        "quantity": quantity,
       };
 
-  ProductOrder toEntity() => ProductOrder(product: product, date: date);
+  ProductOrder toEntity() => ProductOrder(
+        product: product,
+        date: date,
+        quantity: quantity,
+      );
 }
