@@ -64,7 +64,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                       } else if (state is ProductListHasData) {
                         return GridView.count(
                           crossAxisCount: 2,
-                          childAspectRatio: 1 / 2,
+                          childAspectRatio: 1 / 2.5,
                           mainAxisSpacing: 16,
                           crossAxisSpacing: 16,
                           children: state.products
@@ -211,7 +211,7 @@ class ProductItem extends StatelessWidget {
             if (!state.carts.contains(product)) {
               return OutlinedButton(
                 onPressed: () {
-                  context.read<ProductCartBloc>().add(AddToCart(product));
+                  context.read<ProductCartBloc>().add(AddToCartEvent(product));
                 },
                 child: Text('Tambah ke keranjang'),
               );

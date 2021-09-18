@@ -35,5 +35,9 @@ class MockProductRepository extends _i1.Mock implements _i3.ProductRepository {
               _FakeEither_0<_i5.Failure, List<_i6.Product>>())) as _i4
           .Future<_i2.Either<_i5.Failure, List<_i6.Product>>>);
   @override
+  void saveToCart(_i6.ProductOrder? productOrder) =>
+      super.noSuchMethod(Invocation.method(#saveToCart, [productOrder]),
+          returnValueForMissingStub: null);
+  @override
   String toString() => super.toString();
 }

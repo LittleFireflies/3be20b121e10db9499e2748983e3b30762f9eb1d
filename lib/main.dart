@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
 import 'package:kulina_app/data/datasources/api_service.dart';
+import 'package:kulina_app/data/datasources/database.dart';
+import 'package:kulina_app/data/datasources/db_helper.dart';
 import 'package:kulina_app/data/repositories/product_repository_impl.dart';
+import 'package:kulina_app/domain/usecases/add_to_cart.dart';
+import 'package:kulina_app/domain/usecases/get_cart_list.dart';
 import 'package:kulina_app/domain/usecases/get_product_list.dart';
 import 'package:kulina_app/presentation/bloc/product_cart/product_cart_bloc.dart';
 import 'package:kulina_app/presentation/bloc/product_list/product_list_bloc.dart';
@@ -26,13 +30,27 @@ class MyApp extends StatelessWidget {
             create: (_) => ProductListBloc(
               GetProductList(
                 ProductRepositoryImpl(
-                  ApiServiceImpl(client: Client()),
+                  apiService: ApiServiceImpl(client: Client()),
+                  database: DatabaseSQLiteImpl(DatabaseHelper()),
                 ),
               ),
             ),
           ),
           BlocProvider(
-            create: (_) => ProductCartBloc(),
+            create: (_) => ProductCartBloc(
+              addToCart: AddToCart(
+                ProductRepositoryImpl(
+                  apiService: ApiServiceImpl(client: Client()),
+                  database: DatabaseSQLiteImpl(DatabaseHelper()),
+                ),
+              ),
+              getCartList: GetCartList(
+                ProductRepositoryImpl(
+                  apiService: ApiServiceImpl(client: Client()),
+                  database: DatabaseSQLiteImpl(DatabaseHelper()),
+                ),
+              ),
+            ),
           )
         ],
         child: ProductListScreen(),

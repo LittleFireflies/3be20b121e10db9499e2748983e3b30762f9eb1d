@@ -7,10 +7,10 @@ abstract class ProductCartEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class AddToCart extends ProductCartEvent {
+class AddToCartEvent extends ProductCartEvent {
   final Product product;
 
-  AddToCart(this.product);
+  AddToCartEvent(this.product);
 
   @override
   List<Object> get props => [product];
