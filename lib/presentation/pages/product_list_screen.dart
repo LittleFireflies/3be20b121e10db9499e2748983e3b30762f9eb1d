@@ -102,7 +102,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           left: 0,
                           right: 0,
                           child: CartButton(
-                            state.carts,
+                            state,
                             actionWidget: IconButton(
                               onPressed: () {
                                 Navigator.push(
@@ -131,10 +131,10 @@ class _ProductListScreenState extends State<ProductListScreen> {
 }
 
 class CartButton extends StatelessWidget {
-  List<ProductOrder> carts;
+  ProductCartState state;
   Widget? actionWidget;
 
-  CartButton(this.carts, {this.actionWidget});
+  CartButton(this.state, {this.actionWidget});
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +150,7 @@ class CartButton extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${carts.length} item',
+                    '${state.carts.length} item | Rp ${state.totalPrice}',
                     style: TextStyle(color: Colors.white),
                   ),
                   Text(

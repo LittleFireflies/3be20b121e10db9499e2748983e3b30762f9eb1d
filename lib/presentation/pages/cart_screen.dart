@@ -45,7 +45,7 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 ),
                 CartButton(
-                  state.carts,
+                  state,
                   actionWidget: TextButton(
                     child: Row(
                       children: [
