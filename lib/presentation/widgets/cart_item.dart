@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:kulina_app/domain/entities/product.dart';
 
@@ -14,7 +15,9 @@ class CartItem extends StatelessWidget {
         children: [
           Expanded(
             flex: 3,
-            child: Image.network(product.imageUrl),
+            child: CachedNetworkImage(
+              imageUrl: product.imageUrl,
+            ),
           ),
           SizedBox(width: 8),
           Expanded(
