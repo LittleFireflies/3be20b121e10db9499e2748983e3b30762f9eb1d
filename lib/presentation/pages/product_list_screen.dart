@@ -23,6 +23,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   void initState() {
     super.initState();
     context.read<ProductListBloc>().add(LoadProductList());
+    context.read<ProductCartBloc>().add(GetCartEvent());
   }
 
   @override
@@ -100,42 +101,18 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           bottom: 0,
                           left: 0,
                           right: 0,
-                          child: Container(
-                            color: Colors.red,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '${state.carts.length} item',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      Text(
-                                        'Termasuk ongkos kirim',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CartScreen()));
-                                    },
-                                    icon: Icon(
-                                      Icons.shopping_cart,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
+                          child: CartButton(
+                            state.carts,
+                            actionWidget: IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CartScreen()));
+                              },
+                              icon: Icon(
+                                Icons.shopping_cart,
+                                color: Colors.white,
                               ),
                             ),
                           ),
@@ -147,6 +124,44 @@ class _ProductListScreenState extends State<ProductListScreen> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class CartButton extends StatelessWidget {
+  List<ProductOrder> carts;
+  Widget? actionWidget;
+
+  CartButton(this.carts, {this.actionWidget});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Container(
+        color: Colors.red,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${carts.length} item',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  Text(
+                    'Termasuk ongkos kirim',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+              actionWidget ?? Container(),
+            ],
+          ),
         ),
       ),
     );
@@ -202,18 +217,23 @@ class ProductItem extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         SizedBox(height: 16),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
+        Wrap(
           children: [
-            Text(
-              'Rp ${product.price}',
-              style:
-                  Theme.of(context).textTheme.headline6!.copyWith(fontSize: 18),
+            Flexible(
+              child: Text(
+                'Rp ${product.price}',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6!
+                    .copyWith(fontSize: 14),
+              ),
             ),
             SizedBox(width: 4),
-            Text(
-              'termasuk ongkir',
-              style: TextStyle(fontSize: 12),
+            Flexible(
+              child: Text(
+                'termasuk ongkir',
+                style: TextStyle(fontSize: 12),
+              ),
             ),
           ],
         ),

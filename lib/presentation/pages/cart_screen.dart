@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kulina_app/domain/entities/product.dart';
 import 'package:kulina_app/presentation/bloc/product_cart/product_cart_bloc.dart';
+import 'package:kulina_app/presentation/pages/product_list_screen.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -19,33 +20,45 @@ class _CartScreenState extends State<CartScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: BlocBuilder<ProductCartBloc, ProductCartState>(
+          builder: (context, state) {
+            return Column(
               children: [
-                Text('Daftar Pesanan'),
-                TextButton(
-                  child: Text('Hapus Pesanan'),
-                  onPressed: () {},
-                )
-              ],
-            ),
-            Expanded(
-              child: BlocBuilder<ProductCartBloc, ProductCartState>(
-                builder: (context, state) {
-                  return ListView.builder(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Daftar Pesanan'),
+                    TextButton(
+                      child: Text('Hapus Pesanan'),
+                      onPressed: () {},
+                    )
+                  ],
+                ),
+                Expanded(
+                  child: ListView.builder(
                     itemCount: state.carts.length,
                     itemBuilder: (context, index) {
                       return CartItem(
                         product: state.carts[index].product,
                       );
                     },
-                  );
-                },
-              ),
-            ),
-          ],
+                  ),
+                ),
+                CartButton(
+                  state.carts,
+                  actionWidget: TextButton(
+                    child: Row(
+                      children: [
+                        Text('Checkout'),
+                        Icon(Icons.chevron_right),
+                      ],
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -77,7 +90,9 @@ class CartItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(product.name),
+                    Flexible(
+                      child: Text(product.name),
+                    ),
                     IconButton(
                       onPressed: () {},
                       icon: Icon(Icons.delete),
@@ -88,7 +103,9 @@ class CartItem extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Rp ${product.price}'),
+                    Flexible(
+                      child: Text('Rp ${product.price}'),
+                    ),
                     Container(
                       child: Row(
                         children: [

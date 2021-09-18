@@ -24,6 +24,9 @@ class ProductCartBloc extends Bloc<ProductCartEvent, ProductCartState> {
       addToCart.execute(ProductOrder(
           product: event.product, date: DateTime.now(), quantity: 1));
       yield ProductCartState(await getCartList.execute());
+    } else if (event is GetCartEvent) {
+      final cart = await getCartList.execute();
+      yield ProductCartState(cart);
     }
   }
 }
